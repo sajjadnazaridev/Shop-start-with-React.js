@@ -1,11 +1,14 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import ProductPage from "./pages/ProductPage";
+import DetailsPage from "./pages/DetailsPage";
+
 function App() {
   return (
-    <div>
-      <h2 className="text-primary">
-        hello
-        <p className="text-green-500">main</p>
-      </h2>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navigate to="/products" replace />} />
+      <Route path="/products" element={<ProductPage />} />
+      <Route path="/products/:id" element={<DetailsPage />} />
+    </Routes>
   );
 }
 
