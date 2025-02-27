@@ -1,7 +1,9 @@
+import useProducts from "../hooks/useProducts";
+
 function ProductPage() {
-  return (
-    <div>ProductPage</div>
-  )
+  const products = useProducts();
+  console.log(products);
+  return <div>ProductPage</div>;
 }
 
-export default ProductPage
+export default ProductPage;
