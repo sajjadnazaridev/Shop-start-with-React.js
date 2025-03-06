@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardProduct from "../components/CardProduct";
 import Loader from "../components/ui/Loader";
 import useProducts from "../hooks/useProducts";
@@ -8,11 +8,18 @@ import Sidebar from "../components/Templates/Products/Sidebar";
 function ProductPage() {
   const [search, setSearch] = useState();
   const [placeholderSearch, setPlaceholderSearch] = useState("");
-  const products = useProducts();
+  const productsFromContext = useProducts();
+  const [products, setProducts] = useState([]);
+
+  // console.log(products);
 
   const searchHandler = () => {
     console.log(search);
   };
+
+  useEffect(() => {
+    setProducts(productsFromContext);
+  }, [productsFromContext]);
 
   return (
     <>
@@ -38,7 +45,7 @@ function ProductPage() {
           ))}
         </div>
         <div className="h-fit w-1/5 ml-3 flex sticky top-5">
-          <Sidebar />
+          <Sidebar products={products} setProducts={setProducts} />
         </div>
       </div>
     </>
