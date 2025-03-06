@@ -3,6 +3,7 @@ import CardProduct from "../components/CardProduct";
 import Loader from "../components/ui/Loader";
 import useProducts from "../hooks/useProducts";
 import { ImSearch } from "react-icons/im";
+import Sidebar from "../components/Templates/Products/Sidebar";
 
 function ProductPage() {
   const [search, setSearch] = useState();
@@ -15,7 +16,7 @@ function ProductPage() {
 
   return (
     <>
-      <div>
+      <div className="size-full p-4">
         <input
           type="text"
           placeholder="Search..."
@@ -29,14 +30,16 @@ function ProductPage() {
           <ImSearch />
         </button>
       </div>
-      <div className="flex justify-between">
-        <div className="flex flex-wrap justify-between w-full">
+      <div className="flex justify-between w-full p-4">
+        <div className="flex flex-wrap justify-between w-4/5">
           {!products.length && <Loader />}
           {products.map((product) => (
             <CardProduct key={product.id} data={product} />
           ))}
         </div>
-        <div>Sidebar</div>
+        <div className="h-fit w-1/5 ml-3 flex sticky top-5">
+          <Sidebar />
+        </div>
       </div>
     </>
   );
