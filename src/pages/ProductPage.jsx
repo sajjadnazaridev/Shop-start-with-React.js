@@ -6,7 +6,7 @@ import { ImSearch } from "react-icons/im";
 
 function ProductPage() {
   const [search, setSearch] = useState();
-  const [resultSearch, setResultSearch] = useState("");
+  const [placeholderSearch, setPlaceholderSearch] = useState("");
   const products = useProducts();
 
   const searchHandler = () => {
@@ -19,10 +19,10 @@ function ProductPage() {
         <input
           type="text"
           placeholder="Search..."
-          value={resultSearch}
+          value={placeholderSearch}
           onChange={(e) => {
             setSearch(e.target.value.toLowerCase().trim());
-            setResultSearch(e.target.value);
+            setPlaceholderSearch(e.target.value);
           }}
         />
         <button onClick={searchHandler}>
