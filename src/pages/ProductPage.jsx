@@ -10,15 +10,46 @@ function ProductPage() {
   const [placeholderSearch, setPlaceholderSearch] = useState("");
   const productsFromContext = useProducts();
   const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
+  const [loader, setLoader] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const searchHandler = () => {
+    setError("");
+
+    if (search) {
+      const resultSearchFilter = productsFromContext.filter((product) =>
+        selectedCategory === "all" ||
+        product.category.toLowerCase() === selectedCategory
+          ? product.title.toLowerCase().trim().includes(search)
+          : false
+      );
+
+      if (resultSearchFilter.length) {
+        setError("");
+        setProducts(resultSearchFilter);
+      } else {
+        setProducts([]);
+        setError("Product not found!");
+      }
+    } else {
+      if (selectedCategory === "all") {
+        setProducts(productsFromContext);
+      } else {
+        setProducts(
+          productsFromContext.filter(
+            (product) => product.category.toLowerCase() === selectedCategory
+          )
+        );
+      }
+    }
+  };
 
   // console.log(products);
 
-  const searchHandler = () => {
-    console.log(search);
-  };
-
   useEffect(() => {
     setProducts(productsFromContext);
+    setLoader(false);
   }, [productsFromContext]);
 
   return (
@@ -39,13 +70,20 @@ function ProductPage() {
       </div>
       <div className="flex justify-between w-full p-4">
         <div className="flex flex-wrap justify-between w-4/5">
-          {!products.length && <Loader />}
+          {!products.length && loader && <Loader />}
+          {error.length > 0 && <div>{error}</div>}
           {products.map((product) => (
             <CardProduct key={product.id} data={product} />
           ))}
         </div>
         <div className="h-fit w-1/5 ml-3 flex sticky top-5">
-          <Sidebar products={products} setProducts={setProducts} />
+          <Sidebar
+            productsFromContext={productsFromContext}
+            setProducts={setProducts}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setError={setError}
+          />
         </div>
       </div>
     </>
