@@ -1,13 +1,10 @@
 import PropTypes from "prop-types";
 import { RiFileList2Fill } from "react-icons/ri";
+import { createObjectQuery } from "../../../helpers/helper";
 
-function Sidebar({
-  setProducts,
-  productsFromContext,
-  selectedCategory,
-  setSelectedCategory,
-  setError,
-}) {
+function Sidebar({ setError, query, setQuery }) {
+  const { category: selectedCategory } = query;
+
   const categoryHandler = (e) => {
     const { tagName } = e.target;
     const tagValue = e.target.innerText.toLowerCase();
@@ -16,17 +13,7 @@ function Sidebar({
 
     if (tagName !== "LI") return;
 
-    setSelectedCategory(tagValue);
-
-    if (tagValue === "all") {
-      setProducts(productsFromContext);
-    } else {
-      setProducts(
-        productsFromContext.filter(
-          (product) => tagValue === product.category.toLowerCase()
-        )
-      );
-    }
+    setQuery((query) => createObjectQuery(query, { category: tagValue }));
   };
 
   return (
@@ -35,7 +22,7 @@ function Sidebar({
         <RiFileList2Fill />
       </div>
       <ul className="*:cursor-pointer *:mb-2" onClick={categoryHandler}>
-        <li className={selectedCategory === "all" ? "font-bold" : ""}>All</li>
+        <li className={!selectedCategory ? "font-bold" : ""}>All</li>
         <li className={selectedCategory === "electronics" ? "font-bold" : ""}>
           Electronics
         </li>
@@ -58,11 +45,9 @@ function Sidebar({
 }
 
 Sidebar.propTypes = {
-  setProducts: PropTypes.func.isRequired,
-  productsFromContext: PropTypes.array.isRequired,
-  selectedCategory: PropTypes.string.isRequired,
-  setSelectedCategory: PropTypes.func.isRequired,
   setError: PropTypes.func,
+  query: PropTypes.object.isRequired,
+  setQuery: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

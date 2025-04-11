@@ -17,4 +17,35 @@ const filterProducts = (products, category) => {
     return filteredProducts;
 }
 
-export { shortenText, searchProducts, filterProducts };
+const createObjectQuery = (currentQuery, newQuery) => {
+    // console.log(`Current query: ${JSON.stringify(currentQuery)}`);
+    // console.log(`New query: ${JSON.stringify(newQuery)}`);
+
+    if (newQuery.category === "all") {
+        const { category, ...rest } = currentQuery;
+        return rest;
+    }
+
+    if (newQuery.search === "") {
+        const { search, ...rest } = currentQuery;
+        return rest;
+    }
+
+    return { ...currentQuery, ...newQuery };
+}
+
+const getInitialQuery = (searchParams) => {
+    const query = {};
+    const category = searchParams.get("category");
+    const search = searchParams.get("search");
+
+    if (category) {
+        query.category = category;
+    }
+    if (search) {
+        query.search = search;
+    }
+    return query;
+}
+
+export { shortenText, searchProducts, filterProducts, createObjectQuery, getInitialQuery };
