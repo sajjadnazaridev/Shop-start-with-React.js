@@ -4,6 +4,7 @@ import Loader from "../components/ui/Loader";
 import useProducts from "../hooks/useProducts";
 import { ImSearch } from "react-icons/im";
 import Sidebar from "../components/Templates/Products/Sidebar";
+import { filterProducts, searchProducts } from "../helpers/helper";
 
 function ProductPage() {
   const [search, setSearch] = useState();
@@ -13,11 +14,13 @@ function ProductPage() {
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [query, setQuery] = useState({});
 
   const searchHandler = () => {
     setError("");
 
     if (search) {
+      setQuery((query) => ({ ...query, search }));
       const resultSearchFilter = productsFromContext.filter((product) =>
         selectedCategory === "all" ||
         product.category.toLowerCase() === selectedCategory
@@ -45,12 +48,28 @@ function ProductPage() {
     }
   };
 
+  const categoryHandler = (category) => {
+    const tagName = category.tagName;
+    const categoryName = category.innerText.toLowerCase();
+
+    if (tagName !== "LI") return;
+    setQuery((query) => ({ ...query, category: categoryName }));
+  };
+
   // console.log(products);
 
   useEffect(() => {
     setProducts(productsFromContext);
     setLoader(false);
   }, [productsFromContext]);
+
+  useEffect(() => {
+    let finalProducts = searchProducts(productsFromContext, query.search);
+    finalProducts = filterProducts(finalProducts, query.category);
+
+    setProducts(finalProducts);
+    console.log(query);
+  }, [productsFromContext, query]);
 
   return (
     <>
