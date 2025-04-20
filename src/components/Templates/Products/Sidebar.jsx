@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { RiFileList2Fill } from "react-icons/ri";
 import { createObjectQuery } from "../../../helpers/helper";
+import { categories } from "../../../constants/categories";
 
 function Sidebar({ setError, query, setQuery }) {
   const { category: selectedCategory } = query;
@@ -22,23 +23,19 @@ function Sidebar({ setError, query, setQuery }) {
         <RiFileList2Fill />
       </div>
       <ul className="*:cursor-pointer *:mb-2" onClick={categoryHandler}>
-        <li className={!selectedCategory ? "font-bold" : ""}>All</li>
-        <li className={selectedCategory === "electronics" ? "font-bold" : ""}>
-          Electronics
-        </li>
-        <li className={selectedCategory === "jewelery" ? "font-bold" : ""}>
-          Jewelery
-        </li>
-        <li
-          className={selectedCategory === "men's clothing" ? "font-bold" : ""}
-        >
-          Men&apos;s clothing
-        </li>
-        <li
-          className={selectedCategory === "women's clothing" ? "font-bold" : ""}
-        >
-          Women&apos;s clothing
-        </li>
+        {categories.map((item) => (
+          <li
+            key={item.id}
+            className={
+              selectedCategory === item.name.toLocaleLowerCase() ||
+              (!selectedCategory && item.name.toLocaleLowerCase() === "all")
+                ? "font-bold"
+                : null
+            }
+          >
+            {item.name}
+          </li>
+        ))}
       </ul>
     </div>
   );

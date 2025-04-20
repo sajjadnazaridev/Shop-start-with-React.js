@@ -39,7 +39,7 @@ const getInitialQuery = (searchParams) => {
     const category = searchParams.get("category");
     const search = searchParams.get("search");
 
-    if (category) {
+    if (category && category !== "all") {
         query.category = category;
     }
     if (search) {
