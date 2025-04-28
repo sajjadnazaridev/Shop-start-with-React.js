@@ -7,7 +7,7 @@ import Loader from "../components/ui/Loader";
 import {
   filterProducts,
   getInitialQuery,
-  searchProducts
+  searchProducts,
 } from "../helpers/helper";
 import useProducts from "../hooks/useProducts";
 
