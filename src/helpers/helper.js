@@ -64,4 +64,8 @@ const productQuantity = (state, id) => {
     }
 }
 
-export { shortenText, searchProducts, filterProducts, createObjectQuery, getInitialQuery, sumProduct, productQuantity };
+const starConvertor = (num) => {
+    return +num.toFixed(0);
+}
+
+export { shortenText, searchProducts, filterProducts, createObjectQuery, getInitialQuery, sumProduct, productQuantity, starConvertor };
