@@ -14,17 +14,18 @@ function SearchBox({
   };
 
   return (
-    <div className="size-full p-4">
+    <div className="flex items-stretch size-full p-4">
       <input
         type="text"
         placeholder="Search..."
+        className="mr-3 p-1 rounded-md border border-primary outline outline-primary"
         value={placeholderSearch}
         onChange={(e) => {
           setSearch(e.target.value.toLowerCase().trim());
           setPlaceholderSearch(e.target.value);
         }}
       />
-      <button onClick={searchHandler}>
+      <button onClick={searchHandler} className="px-2 text-light rounded-md bg-primary transition-all cursor-pointer hover:bg-secondary">
         <ImSearch />
       </button>
     </div>
