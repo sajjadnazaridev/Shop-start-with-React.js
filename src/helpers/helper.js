@@ -34,7 +34,7 @@ const createObjectQuery = (currentQuery, newQuery) => {
     return { ...currentQuery, ...newQuery };
 }
 
-const getInitialQuery = (searchParams) => {    
+const getInitialQuery = (searchParams) => {
     const query = {};
     const category = searchParams.get("category");
     const search = searchParams.get("search");
@@ -51,6 +51,11 @@ const sumProduct = (products) => {
     const counterItems = products.reduce((counter, product) => counter + product.quantity, 0);
 
     const totalPrices = products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
+
+    console.log(`log in sum`);
+    console.log({ counterItems, totalPrices });
+
+
 
     return { counterItems, totalPrices };
 }

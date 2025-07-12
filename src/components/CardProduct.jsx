@@ -13,9 +13,9 @@ function CardProduct({ data }) {
 
   const quantity = productQuantity(state, id);
 
-  // console.log(state);
-
   const clickHandler = (type) => {
+    console.log("log in clickHandler");
+    console.log(state);
     if (type === "ADD_TO_CART") {
       dispatch({ type, payload: data });
     } else if (type === "REMOVE_FROM_CART") {
@@ -63,6 +63,7 @@ function CardProduct({ data }) {
               onClick={() => clickHandler("ADD_TO_CART")}
               className="p-2 bg-primary rounded-md cursor-pointer"
             >
+              hi
               <FaCartArrowDown size={16} />
             </button>
           ) : (
