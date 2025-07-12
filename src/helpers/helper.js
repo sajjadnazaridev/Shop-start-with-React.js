@@ -34,7 +34,7 @@ const createObjectQuery = (currentQuery, newQuery) => {
     return { ...currentQuery, ...newQuery };
 }
 
-const getInitialQuery = (searchParams) => {
+const getInitialQuery = (searchParams) => {    
     const query = {};
     const category = searchParams.get("category");
     const search = searchParams.get("search");
