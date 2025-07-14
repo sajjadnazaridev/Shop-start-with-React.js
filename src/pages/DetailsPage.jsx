@@ -13,6 +13,8 @@ import {
   increaseQuantity,
   removeFromCart,
 } from "../features/cart/CartSlice";
+import { useEffect } from "react";
+import { fetchProducts } from "../features/product/ProductSlice";
 
 function DetailsPage() {
   const { id } = useParams();
@@ -22,6 +24,12 @@ function DetailsPage() {
   const dispatch = useDispatch();
 
   const productDetail = products.find((product) => product.id === +id);
+
+  useEffect(() => {
+    if (!productDetail && products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, productDetail, products]);
 
   if (!productDetail) return <Loader />;
 

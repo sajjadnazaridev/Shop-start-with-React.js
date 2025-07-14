@@ -52,8 +52,6 @@ const sumProduct = (products) => {
 }
 
 const productQuantity = (state, id) => {
-    console.log(state);
-
     const index = state.selectedItems.findIndex(item => item.id === id);
     if (index !== -1) {
         return state.selectedItems[index].quantity;

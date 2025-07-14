@@ -58,7 +58,7 @@ function ProductPage() {
       />
       <div className="flex justify-between w-full p-4">
         <div className="flex flex-wrap justify-between w-4/5">
-          {!isPending.length && isPending && <Loader />}
+          {isPending && <Loader />}
           {error.length > 0 && <div>{error}</div>}
           {productsLoaded.map((product) => (
             <CardProduct key={product.id} data={product} />
