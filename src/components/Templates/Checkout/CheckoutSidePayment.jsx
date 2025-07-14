@@ -2,11 +2,12 @@ import PropTypes from "prop-types";
 import { AiOutlineProduct } from "react-icons/ai";
 import { MdPayment } from "react-icons/md";
 import { TbBrandCashapp } from "react-icons/tb";
+import { checkout } from "../../../features/cart/CartSlice";
 
 function CheckoutSidePayment({ data, dispatch }) {
   const clickHandler = (type) => {
     if (type === "CHECKOUT") {
-      dispatch({ type });
+      dispatch(checkout());
     }
   };
 

@@ -2,28 +2,33 @@ import PropTypes from "prop-types";
 import { CgDetailsMore } from "react-icons/cg";
 import { FaCartArrowDown, FaTrash } from "react-icons/fa";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  addToCart,
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "../features/cart/CartSlice";
 import { productQuantity, shortenText } from "../helpers/helper";
-import useCart from "../hooks/useCart";
 
 function CardProduct({ data }) {
   const { id, title, image, price } = data;
 
-  const [state, dispatch] = useCart();
+  const state = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const quantity = productQuantity(state, id);
 
   const clickHandler = (type) => {
-    console.log("log in clickHandler");
-    console.log(state);
     if (type === "ADD_TO_CART") {
-      dispatch({ type, payload: data });
+      dispatch(addToCart(data));
     } else if (type === "REMOVE_FROM_CART") {
-      dispatch({ type, payload: data });
+      dispatch(removeFromCart(data));
     } else if (type === "INCREASE_QUANTITY") {
-      dispatch({ type, payload: data });
+      dispatch(increaseQuantity(data));
     } else if (type === "DECREASE_QUANTITY") {
-      dispatch({ type, payload: data });
+      dispatch(decreaseQuantity(data));
     }
   };
 
@@ -63,7 +68,6 @@ function CardProduct({ data }) {
               onClick={() => clickHandler("ADD_TO_CART")}
               className="p-2 bg-primary rounded-md cursor-pointer"
             >
-              hi
               <FaCartArrowDown size={16} />
             </button>
           ) : (

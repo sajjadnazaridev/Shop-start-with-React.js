@@ -1,33 +1,41 @@
+import { FaListUl, FaStar, FaTrash } from "react-icons/fa";
+import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { IoArrowBackSharp } from "react-icons/io5";
+import { LuChartLine } from "react-icons/lu";
+import { MdFavoriteBorder, MdOutlineNotificationsActive } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import useProductDetails from "../hooks/useProductDetails";
 import Loader from "../components/ui/Loader";
 import { productQuantity, starConvertor } from "../helpers/helper";
-import { FaListUl, FaStar, FaTrash } from "react-icons/fa";
-import { MdFavoriteBorder, MdOutlineNotificationsActive } from "react-icons/md";
-import { LuChartLine } from "react-icons/lu";
-import { IoArrowBackSharp } from "react-icons/io5";
-import useCart from "../hooks/useCart";
-import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import {
+  addToCart,
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "../features/cart/CartSlice";
 
 function DetailsPage() {
   const { id } = useParams();
-  const [state, dispatch] = useCart();
+  const { products } = useSelector((state) => state.products);
+  const cart = useSelector((state) => state.cart);
 
-  const productDetail = useProductDetails(+id);
+  const dispatch = useDispatch();
+
+  const productDetail = products.find((product) => product.id === +id);
 
   if (!productDetail) return <Loader />;
 
-  const quantity = productQuantity(state, productDetail.id);
+  const quantity = productQuantity(cart, productDetail.id);
 
   const clickHandler = (type) => {
     if (type === "ADD_TO_CART") {
-      dispatch({ type, payload: productDetail });
+      dispatch(addToCart(productDetail));
     } else if (type === "REMOVE_FROM_CART") {
-      dispatch({ type, payload: productDetail });
+      dispatch(removeFromCart(productDetail));
     } else if (type === "INCREASE_QUANTITY") {
-      dispatch({ type, payload: productDetail });
+      dispatch(increaseQuantity(productDetail));
     } else if (type === "DECREASE_QUANTITY") {
-      dispatch({ type, payload: productDetail });
+      dispatch(decreaseQuantity(productDetail));
     }
   };
 

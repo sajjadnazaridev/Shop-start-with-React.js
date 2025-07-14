@@ -1,9 +1,9 @@
 import { FaCartShopping } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useCart from "../../hooks/useCart";
 
 function Header() {
-  const [state] = useCart();
+  const state = useSelector((state) => state.cart);
 
   return (
     <header className="flex justify-between items-center m-4 p-2 text-light rounded-lg bg-primary">

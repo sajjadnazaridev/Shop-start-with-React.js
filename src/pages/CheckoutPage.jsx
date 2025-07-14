@@ -1,13 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
 import { emptyImage } from "../assets";
 import BasketCard from "../components/Templates/Checkout/BasketCard";
 import CheckoutSidePayment from "../components/Templates/Checkout/CheckoutSidePayment";
-import useCart from "../hooks/useCart";
 
 function CheckoutPage() {
-  const [state, dispatch] = useCart();
-  // console.log(state);
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
-  if (!state.selectedItems.length) {
+  if (!cart.selectedItems.length) {
     return (
       <div className="flex flex-col justify-center items-center h-screen">
         <img src={emptyImage} alt="empty image" />
@@ -22,11 +22,11 @@ function CheckoutPage() {
   return (
     <div className="flex justify-between items-start h-screen m-4">
       <div className="w-1/3 mr-4">
-        <CheckoutSidePayment data={state} dispatch={dispatch} />
+        <CheckoutSidePayment data={cart} dispatch={dispatch} />
       </div>
 
       <div className="w-2/3 h-full border-l pl-4 border-gray-400 overflow-auto">
-        {state.selectedItems.map((item) => (
+        {cart.selectedItems.map((item) => (
           <BasketCard key={item.id} data={item} dispatch={dispatch} />
         ))}
       </div>

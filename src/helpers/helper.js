@@ -18,8 +18,6 @@ const filterProducts = (products, category) => {
 }
 
 const createObjectQuery = (currentQuery, newQuery) => {
-    // console.log(`Current query: ${JSON.stringify(currentQuery)}`);
-    // console.log(`New query: ${JSON.stringify(newQuery)}`);
 
     if (newQuery.category === "all") {
         const { category, ...rest } = currentQuery;
@@ -49,18 +47,13 @@ const getInitialQuery = (searchParams) => {
 }
 const sumProduct = (products) => {
     const counterItems = products.reduce((counter, product) => counter + product.quantity, 0);
-
     const totalPrices = products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
-
-    console.log(`log in sum`);
-    console.log({ counterItems, totalPrices });
-
-
-
     return { counterItems, totalPrices };
 }
 
 const productQuantity = (state, id) => {
+    console.log(state);
+
     const index = state.selectedItems.findIndex(item => item.id === id);
     if (index !== -1) {
         return state.selectedItems[index].quantity;
