@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { emptyImage } from "../assets";
 import BasketCard from "../components/Templates/Checkout/BasketCard";
 import CheckoutSidePayment from "../components/Templates/Checkout/CheckoutSidePayment";
