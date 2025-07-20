@@ -1,38 +1,56 @@
+import { FaListUl, FaStar, FaTrash } from "react-icons/fa";
+import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { IoArrowBackSharp } from "react-icons/io5";
+import { LuChartLine } from "react-icons/lu";
+import { MdFavoriteBorder, MdOutlineNotificationsActive } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
-import useProductDetails from "../hooks/useProductDetails";
 import Loader from "../components/ui/Loader";
 import { productQuantity, starConvertor } from "../helpers/helper";
-import { FaListUl, FaStar, FaTrash } from "react-icons/fa";
-import { MdFavoriteBorder, MdOutlineNotificationsActive } from "react-icons/md";
-import { LuChartLine } from "react-icons/lu";
-import { IoArrowBackSharp } from "react-icons/io5";
-import useCart from "../hooks/useCart";
-import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { refetchProduct } from "../features/product/productSlice";
+import {
+  addToCart,
+  decreaseQuantity,
+  increaseQuantity,
+  removeItem,
+} from "../features/cart/cartSlice";
 
 function DetailsPage() {
   const { id } = useParams();
-  const [state, dispatch] = useCart();
+  const { products, loading, error } = useSelector((state) => state.product);
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
-  const productDetail = useProductDetails(+id);
+  useEffect(() => {
+    if (!products || products.length === 0) {
+      dispatch(refetchProduct(id));
+    }
+  }, [dispatch, id, products]);
 
-  if (!productDetail) return <Loader />;
+  if (error) return <div>Error loading product details: {error}</div>;
 
-  const quantity = productQuantity(state, productDetail.id);
+  if (!products || loading) return <Loader />;
+
+  const product = products.find((item) => item.id.toString() === id);
+  if (!product) return <div>Product not found</div>;
+
+  const quantity = productQuantity(cart, product.id);
 
   const clickHandler = (type) => {
     if (type === "ADD_TO_CART") {
-      dispatch({ type, payload: productDetail });
+      dispatch(addToCart(product));
     } else if (type === "REMOVE_FROM_CART") {
-      dispatch({ type, payload: productDetail });
+      dispatch(removeItem(product));
     } else if (type === "INCREASE_QUANTITY") {
-      dispatch({ type, payload: productDetail });
+      dispatch(increaseQuantity(product));
     } else if (type === "DECREASE_QUANTITY") {
-      dispatch({ type, payload: productDetail });
+      dispatch(decreaseQuantity(product));
     }
   };
 
   const totalStars = 5;
-  const starConverted = starConvertor(productDetail.rating.rate);
+  const starConverted = starConvertor(product.rating.rate);
 
   return (
     <div className="flex-col items-center m-4">
@@ -51,17 +69,13 @@ function DetailsPage() {
         </div>
 
         <div className="w-2/6">
-          <img
-            src={productDetail.image}
-            alt={productDetail.title}
-            className="w-full"
-          />
+          <img src={product.image} alt={product.title} className="w-full" />
         </div>
 
         <div className="flex-col justify-between w-2/7 mx-4 p-4 bg-gray-100 rounded-md border border-gray-500">
           <div className="w-full mb-4 text-left">
-            <p className="text-primary text-xs">{productDetail.category}</p>
-            <h1 className="font-bold">{productDetail.title}</h1>
+            <p className="text-primary text-xs">{product.category}</p>
+            <h1 className="font-bold">{product.title}</h1>
           </div>
 
           <div>
@@ -75,7 +89,7 @@ function DetailsPage() {
               ))}
             </div>
 
-            <p>Price ${productDetail.price}</p>
+            <p>Price ${product.price}</p>
             <div className="flex justify-between items-center mt-4 text-light">
               {quantity > 1 && (
                 <button
@@ -123,7 +137,7 @@ function DetailsPage() {
         <div className="w-2/6 ml-4">
           <div>
             <h3 className="text-primary mb-3">Description</h3>
-            <p>{productDetail.description}</p>
+            <p>{product.description}</p>
           </div>
         </div>
       </div>

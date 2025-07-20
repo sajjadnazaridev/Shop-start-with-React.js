@@ -47,15 +47,16 @@ const getInitialQuery = (searchParams) => {
     }
     return query;
 }
-const sumProduct = (products) => {
-    const counterItems = products.reduce((counter, product) => counter + product.quantity, 0);
 
-    const totalPrices = products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
+const sumPrice = (products) => {
+    return products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
+};
 
-    return { counterItems, totalPrices };
+const sumQuantity = (products) => {
+    return products.reduce((total, product) => total + product.quantity, 0);
 }
 
-const productQuantity = (state, id) => {
+const productQuantity = (state, id) => {        
     const index = state.selectedItems.findIndex(item => item.id === id);
     if (index !== -1) {
         return state.selectedItems[index].quantity;
@@ -68,4 +69,4 @@ const starConvertor = (num) => {
     return +num.toFixed(0);
 }
 
-export { shortenText, searchProducts, filterProducts, createObjectQuery, getInitialQuery, sumProduct, productQuantity, starConvertor };
+export { shortenText, searchProducts, filterProducts, createObjectQuery, getInitialQuery, sumPrice, sumQuantity, productQuantity, starConvertor };

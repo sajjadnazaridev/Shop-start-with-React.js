@@ -3,15 +3,22 @@ import { FaTrash } from "react-icons/fa";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
 import { shortenText } from "../../../helpers/helper";
 import { Link } from "react-router-dom";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeItem,
+} from "../../../features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
-function BasketCard({ data, dispatch }) {
+function BasketCard({ data }) {
+  const dispatch = useDispatch();
   const clickHandler = (type) => {
     if (type === "REMOVE_FROM_CART") {
-      dispatch({ type, payload: data });
+      dispatch(removeItem(data));
     } else if (type === "INCREASE_QUANTITY") {
-      dispatch({ type, payload: data });
+      dispatch(increaseQuantity(data));
     } else if (type === "DECREASE_QUANTITY") {
-      dispatch({ type, payload: data });
+      dispatch(decreaseQuantity(data));
     }
   };
 

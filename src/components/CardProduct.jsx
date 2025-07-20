@@ -2,28 +2,33 @@ import PropTypes from "prop-types";
 import { CgDetailsMore } from "react-icons/cg";
 import { FaCartArrowDown, FaTrash } from "react-icons/fa";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  addToCart,
+  decreaseQuantity,
+  increaseQuantity,
+  removeItem,
+} from "../features/cart/cartSlice";
 import { productQuantity, shortenText } from "../helpers/helper";
-import useCart from "../hooks/useCart";
 
 function CardProduct({ data }) {
-  const { id, title, image, price } = data;
+  const { id, title, price, image } = data;
 
-  const [state, dispatch] = useCart();
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
-  const quantity = productQuantity(state, id);
-
-  // console.log(state);
+  const quantity = productQuantity(cart, id);
 
   const clickHandler = (type) => {
     if (type === "ADD_TO_CART") {
-      dispatch({ type, payload: data });
+      dispatch(addToCart(data));
     } else if (type === "REMOVE_FROM_CART") {
-      dispatch({ type, payload: data });
+      dispatch(removeItem(data));
     } else if (type === "INCREASE_QUANTITY") {
-      dispatch({ type, payload: data });
+      dispatch(increaseQuantity(data));
     } else if (type === "DECREASE_QUANTITY") {
-      dispatch({ type, payload: data });
+      dispatch(decreaseQuantity(data));
     }
   };
 
